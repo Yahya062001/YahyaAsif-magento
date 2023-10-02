@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.info"
+                        template="DeveloperHub_StockStatus::product/view/form.phtml" />
+        <referenceBlock name="catalog.product.related"
+                        template="DeveloperHub_StockStatus::product/list/items.phtml" />
+        <referenceBlock name="product.info.upsell"
+                        template="DeveloperHub_StockStatus::product/list/items.phtml" />
+    </body>
+</page>

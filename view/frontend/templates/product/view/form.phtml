@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * Product view template
+ *
+ * @var $block \Magento\Catalog\Block\Product\View
+ */
+?>
+<?php $_helper = $this->helper(Magento\Catalog\Helper\Output::class); ?>
+<?php $_product = $block->getProduct(); ?>
+<?php
+/* @var $escaper \Magento\Framework\Escaper */
+$customBlock = $block->getLayout()->createBlock(DeveloperHub\StockStatus\Block\StockInformation::class);
+$sku = $_product->getData()['sku'];
+$typeId = $_product->getData()['type_id'];
+$id = $_product->getData()['entity_id'];
+if ($typeId == 'grouped') {
+    $data = $customBlock->getGroupedProduct($sku);
+} else {
+    if ($typeId == 'bundle') {
+        $data = $customBlock->getBundleProduct($sku);
+    } else {
+        $data = $customBlock->getStockInfo($id, $sku, $typeId);
+    }
+}
+$helper = $this->helper(\DeveloperHub\StockStatus\Helper\Data::class);
+$enable = $helper->getConfigFieldEnable();
+?>
+<?php if ($customBlock->getHttpRequest() == 'catalog_product_view' && $enable == 1): ?>
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+        <tr>
+            <?php if ($typeId != 'grouped' && $typeId != 'bundle'): ?>
+                <th style="font-size: 15px">Color</th>
+            <?php endif;?>
+            <?php if ($typeId != 'simple' && $typeId != 'grouped' && $typeId != 'bundle'): ?>
+                <th style="font-size: 15px">Size</th>
+            <?php endif; ?>
+            <th style="font-size: 15px">Quantity</th>
+            <th style="font-size: 15px">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($data as $value): ?>
+            <div class="container">
+                <div class="row">
+                    <tr>
+                        <?php if ($typeId != 'grouped' && $typeId != 'bundle'): ?>
+                            <td style="font-size: 13px"><?php echo $value['color'] ?></td>
+                        <?php endif; ?>
+                        <?php if ($typeId != 'simple' && $typeId != 'grouped' && $typeId != 'bundle'): ?>
+                            <td style="font-size: 13px"><?php echo $value['size'] ?></td>
+                        <?php endif; ?>
+                        <td style="font-size: 13px"><?php echo $value['qty'] ?></td>
+                        <div class="progress-bar">
+                            <td style="font-size: 13px;">
+                                <div class="progress" role="progressbar"
+                                     aria-label="Example with label" aria-valuenow="25" aria-valuemin="0"
+                                     aria-valuemax="100">
+                                    <div class="progress-bar"
+                                         style="width: <?php echo $value['qty'] . '%' ?>">
+                                    </div>
+                                </div>
+                            </td>
+                        </div>
+                    </tr>
+                </div>
+            </div>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php endif; ?>
+
+<div class="product-add-form">
+    <form data-product-sku="<?= $escaper->escapeHtml($_product->getSku()) ?>"
+          action="<?= $block->escapeUrl($block->getSubmitUrl($_product)) ?>" method="post"
+          id="product_addtocart_form"<?php if ($_product->getOptions()) : ?> enctype="multipart/form-data"<?php endif; ?>>
+        <input type="hidden" name="product" value="<?= (int)$_product->getId() ?>"/>
+        <input type="hidden" name="selected_configurable_option" value=""/>
+        <input type="hidden" name="related_product" id="related-products-field" value=""/>
+        <input type="hidden" name="item" value="<?= (int)$block->getRequest()->getParam('id') ?>"/>
+        <?= $block->getBlockHtml('formkey') ?>
+        <?= $block->getChildHtml('form_top') ?>
+        <?php if (!$block->hasOptions()) : ?>
+            <?= $block->getChildHtml('product_info_form_content') ?>
+        <?php else : ?>
+            <?php if ($_product->isSaleable() && $block->getOptionsContainer() == 'container1') : ?>
+                <?= $block->getChildChildHtml('options_container') ?>
+            <?php endif; ?>
+        <?php endif; ?>
+
+        <?php if ($_product->isSaleable() && $block->hasOptions() && $block->getOptionsContainer() == 'container2') : ?>
+            <?= $block->getChildChildHtml('options_container') ?>
+        <?php endif; ?>
+        <?= $block->getChildHtml('form_bottom') ?>
+    </form>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "[data-role=priceBox][data-price-box=product-id-<?= $escaper->escapeHtml($_product->getId()) ?>]": {
+            "priceBox": {
+                "priceConfig":  <?= /* @noEscape */
+    $block->getJsonConfig() ?>
+            }
+        }
+    }
+
+</script>
