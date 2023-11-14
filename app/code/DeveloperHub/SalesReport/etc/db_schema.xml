@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="sales_order_reports_data" resource="default" engine="innodb" comment="Sales Order Report">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity Id"/>
+        <column xsi:type="varchar" name="created_at" nullable="true" comment="Created At"/>
+        <column xsi:type="varchar" name="invoice_created_at" nullable="true" comment="Invoice Created At"/>
+        <column xsi:type="varchar" name="invoice_number" nullable="true" comment="Invoice Number"/>
+        <column xsi:type="varchar" name="order_increment_id" nullable="true" comment="Order Increment Id"/>
+        <column xsi:type="varchar" name="status" nullable="true" comment="Status"/>
+        <column xsi:type="varchar" name="vat_amount" nullable="true" comment="Vat Amount"/>
+        <column xsi:type="varchar" name="sku" nullable="true" comment="Sku"/>
+        <column xsi:type="varchar" name="customer_name" nullable="true" comment="Customer Name"/>
+        <column xsi:type="varchar" name="customer_telephone" nullable="true" comment="Customer Telephone"/>
+        <column xsi:type="varchar" name="grand_total" nullable="true" comment="Grand Total"/>
+        <column xsi:type="varchar" name="payment_methods" nullable="true" comment="Payment Methods"/>
+        <column xsi:type="varchar" name="store_id" nullable="true" comment="Store Id"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+</schema>

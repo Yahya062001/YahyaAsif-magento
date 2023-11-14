@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="DeveloperHub_SalesReport::sales_order_reports"
+             title="Sales Order Reports" translate="title"
+             module="Magento_Backend" sortOrder="10"
+             parent="Magento_Reports::report"
+             resource="DeveloperHub_SalesReport::sales_order_reports"
+        />
+        <add id="DeveloperHub_SalesReport::sales_report_grid"
+             title="Sales Reports" translate="title"
+             module="DeveloperHub_SalesReport" sortOrder="10"
+             parent="DeveloperHub_SalesReport::sales_order_reports"
+             action="report/report_sales/reports"
+             resource="Magento_Reports::product"
+        />
+    </menu>
+</config>

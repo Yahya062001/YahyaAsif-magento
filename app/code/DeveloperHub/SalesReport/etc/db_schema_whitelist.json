@@ -1,0 +1,22 @@
+{
+    "sales_order_reports_data": {
+        "column": {
+            "entity_id": true,
+            "created_at": true,
+            "invoice_created_at": true,
+            "invoice_number": true,
+            "order_increment_id": true,
+            "status": true,
+            "vat_amount": true,
+            "sku": true,
+            "customer_name": true,
+            "customer_telephone": true,
+            "grand_total": true,
+            "payment_methods": true,
+            "store_id": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}
